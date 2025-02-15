@@ -76,12 +76,49 @@ class BaseModle(models.Model):
     class Meta:
         abstract = True
         
-class Author(BaseModle):
+class BaseModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Author(BaseModel):
     name = models.CharField(max_length=100)
-    user = models.OneToOneField(Account, on_delete=models.CASCADE,related_name='author')
-    
-class Book(BaseModle):
-    title = models.CharField(max_length=100)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE,related_name='books')
+    user = models.OneToOneField("Account", on_delete=models.CASCADE, related_name='author', null=True, blank=True)
+    gender = models.CharField(max_length=10, blank=True)  
+    image_url = models.URLField(blank=True, null=True)
+    about = models.TextField(blank=True, null=True)
+    fans_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+class Book(BaseModel):
+    title = models.CharField(max_length=255)
+    authors = models.ManyToManyField(Author, related_name='books')
     description = models.TextField()
-    
+    work_id = models.CharField(max_length=100, unique=True)
+    isbn = models.CharField(max_length=20, blank=True, null=True)
+    isbn13 = models.CharField(max_length=20, blank=True, null=True)
+    asin = models.CharField(max_length=20, blank=True, null=True)
+    language = models.CharField(max_length=10, blank=True, null=True)
+    average_rating = models.FloatField(default=0)
+    rating_dist = models.TextField(blank=True, null=True)  # Can be processed separately
+    ratings_count = models.IntegerField(default=0)
+    text_reviews_count = models.IntegerField(default=0)
+    publication_date = models.DateField(blank=True, null=True)
+    original_publication_date = models.DateField(blank=True, null=True)
+    format = models.CharField(max_length=50, blank=True, null=True)
+    edition_information = models.CharField(max_length=255, blank=True, null=True)
+    image_url = models.URLField(blank=True, null=True)
+    publisher = models.CharField(max_length=255, blank=True, null=True)
+    num_pages = models.IntegerField(blank=True, null=True)
+    series_id = models.CharField(max_length=100, blank=True, null=True)
+    series_name = models.CharField(max_length=255, blank=True, null=True)
+    series_position = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title

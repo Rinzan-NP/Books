@@ -14,11 +14,11 @@ from .serializer import (
     # BookSerializer,
     AuthorSerializer,
     BookSerializer,
-    BookSerilizer,
+    
     UserRegisterSerializer,
     UserDetailsUpdateSerializer,
     UserSerializer,
-    UpdateUserDetial,BookListSerilizer
+    UpdateUserDetial
 )
 from base.models import Book,Author
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
@@ -197,55 +197,56 @@ class UserUpdateView(UpdateAPIView):
     
 
 #books
+# Authors
 class AuthorsListView(generics.ListAPIView):
-    serilizer_class = AuthorSerializer
+    serializer_class = AuthorSerializer
     queryset = Author.objects.all()
-    
 
 class AuthorDetailView(generics.RetrieveAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    lookup_field = 'id'
-    
+    lookup_field = "pk"  # Using primary key (pk) instead of 'id'
+
 class AuthorCreateView(generics.CreateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class AuthorUpdateView(generics.UpdateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    lookup_field = "id"
-    
+    lookup_field = "pk"
+    permission_classes = [permissions.IsAuthenticated]
+
 class AuthorDeleteView(generics.DestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    lookup_field = "id"    
-   
-class BookListView(generics.ListAPIView):
-    serilizer_class = BookSerializer
-    queryset = Book.objects.all()
+    lookup_field = "pk"
+    permission_classes = [permissions.IsAuthenticated]
 
+# Books
+class BookListView(generics.ListAPIView):
+    serializer_class = BookSerializer  # Fixed Typo
+    queryset = Book.objects.all()
 
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = 'id' 
-    
+    lookup_field = "pk"
 
 class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    
+    permission_classes = [permissions.IsAuthenticated]
 
-class BookUpdateView(generics.UpdateAPIView): 
+class BookUpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = "id"  
-    permission_classes = [permissions.IsAuthenticated]  
-    
-    
+    lookup_field = "pk"
+    permission_classes = [permissions.IsAuthenticated]
+
 class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = "id"
-    
+    lookup_field = "pk"
+    permission_classes = [permissions.IsAuthenticated]

@@ -71,13 +71,26 @@ class UpdateUserDetial(serializers.ModelSerializer):
         return instance
     
 
-class BookSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Book
-        fields = '__all__'
-        
-
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = '__all__'
+        fields = "__all__"  # Includes all fields
+
+class BookSerializer(serializers.ModelSerializer):
+    authors = AuthorSerializer(many=True)  # Nested serialization
+
+    class Meta:
+        model = Book
+        fields = "__all__"
+
+    def create(self, validated_data):
+        authors_data = validated_data.pop('authors', [])
+        book = Book.objects.create(**validated_data)
+        book.authors.set(authors_data)  # Assign authors
+        return book
+
+    def update(self, instance, validated_data):
+        authors_data = validated_data.pop('authors', None)
+        if authors_data is not None:
+            instance.authors.set(authors_data)
+        return super().update(instance, validated_data)
