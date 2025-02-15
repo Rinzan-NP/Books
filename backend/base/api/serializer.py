@@ -2,7 +2,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from base.models import Account
+from base.models import Account,Book,Author
 
 User = get_user_model()
 
@@ -71,8 +71,13 @@ class UpdateUserDetial(serializers.ModelSerializer):
         return instance
     
 
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = '__all__'
+        
 
-# class BookSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Account
-#         fields = "__all__"
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = '__all__'

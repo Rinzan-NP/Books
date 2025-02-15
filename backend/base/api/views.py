@@ -8,16 +8,19 @@ from rest_framework.exceptions import ParseError, AuthenticationFailed
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-from rest_framework import status
-
+from rest_framework import status,generics,permissions
 # from base.models import Book
 from .serializer import (
     # BookSerializer,
+    AuthorSerializer,
+    BookSerializer,
+    BookSerilizer,
     UserRegisterSerializer,
     UserDetailsUpdateSerializer,
     UserSerializer,
-    UpdateUserDetial
+    UpdateUserDetial,BookListSerilizer
 )
+from base.models import Book,Author
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from .serializer import MyTokenObtainPairSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -193,11 +196,56 @@ class UserUpdateView(UpdateAPIView):
     lookup_field = "pk"
     
 
-
-# class BookListView(APIView):
-#     def get(self, request):
-#         books = Book.objects.all()
-#         serializer = BookSerializer(books, many=True)
-#         return Response(serializer.data)
+#books
+class AuthorsListView(generics.ListAPIView):
+    serilizer_class = AuthorSerializer
+    queryset = Author.objects.all()
     
+
+class AuthorDetailView(generics.RetrieveAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    lookup_field = 'id'
+    
+class AuthorCreateView(generics.CreateAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+class AuthorUpdateView(generics.UpdateAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    lookup_field = "id"
+    
+class AuthorDeleteView(generics.DestroyAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    lookup_field = "id"    
+   
+class BookListView(generics.ListAPIView):
+    serilizer_class = BookSerializer
+    queryset = Book.objects.all()
+
+
+class BookDetailView(generics.RetrieveAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    lookup_field = 'id' 
+    
+
+class BookCreateView(generics.CreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    
+
+class BookUpdateView(generics.UpdateAPIView): 
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    lookup_field = "id"  
+    permission_classes = [permissions.IsAuthenticated]  
+    
+    
+class BookDeleteView(generics.DestroyAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    lookup_field = "id"
     
