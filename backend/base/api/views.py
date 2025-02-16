@@ -205,7 +205,7 @@ class AuthorsListView(generics.ListAPIView):
 class AuthorDetailView(generics.RetrieveAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    lookup_field = "pk"  # Using primary key (pk) instead of 'id'
+    lookup_field = "id" 
 
 class AuthorCreateView(generics.CreateAPIView):
     queryset = Author.objects.all()
@@ -215,13 +215,13 @@ class AuthorCreateView(generics.CreateAPIView):
 class AuthorUpdateView(generics.UpdateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    lookup_field = "pk"
+    lookup_field = "id"
     permission_classes = [permissions.IsAuthenticated]
 
 class AuthorDeleteView(generics.DestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    lookup_field = "pk"
+    lookup_field = "id"
     permission_classes = [permissions.IsAuthenticated]
 
 # Books
@@ -232,7 +232,7 @@ class BookListView(generics.ListAPIView):
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = "pk"
+    lookup_field = "id"
 
 class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
@@ -242,11 +242,11 @@ class BookCreateView(generics.CreateAPIView):
 class BookUpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = "pk"
+    lookup_field = "id"
     permission_classes = [permissions.IsAuthenticated]
 
 class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = "pk"
+    lookup_field = "id"
     permission_classes = [permissions.IsAuthenticated]
