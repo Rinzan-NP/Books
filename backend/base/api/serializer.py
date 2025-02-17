@@ -77,20 +77,22 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = "__all__"  # Includes all fields
 
 class BookSerializer(serializers.ModelSerializer):
-    authors = AuthorSerializer(many=True)  # Nested serialization
+    authors = serializers.PrimaryKeyRelatedField(
+        queryset=Author.objects.all(), many=True
+    ) # Nested serialization
 
     class Meta:
         model = Book
         fields = "__all__"
 
-    def create(self, validated_data):
-        authors_data = validated_data.pop('authors', [])
-        book = Book.objects.create(**validated_data)
-        book.authors.set(authors_data)  # Assign authors
-        return book
+    # def create(self, validated_data):
+    #     authors_data = validated_data.pop('authors', [])
+    #     book = Book.objects.create(**validated_data)
+    #     book.authors.set(authors_data)  # Assign authors
+    #     return book
 
-    def update(self, instance, validated_data):
-        authors_data = validated_data.pop('authors', None)
-        if authors_data is not None:
-            instance.authors.set(authors_data)
-        return super().update(instance, validated_data)
+    # def update(self, instance, validated_data):
+    #     authors_data = validated_data.pop('authors', None)
+    #     if authors_data is not None:
+    #         instance.authors.set(authors_data)
+    #     return super().update(instance, validated_data)
