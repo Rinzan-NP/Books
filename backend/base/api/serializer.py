@@ -72,6 +72,7 @@ class UpdateUserDetial(serializers.ModelSerializer):
     
 
 class AuthorSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Author
         fields = "__all__"  # Includes all fields

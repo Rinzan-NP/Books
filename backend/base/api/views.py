@@ -250,3 +250,8 @@ class BookDeleteView(generics.DestroyAPIView):
     serializer_class = BookSerializer
     lookup_field = "id"
     permission_classes = [permissions.IsAuthenticated]
+    
+class AuhtorDetailView(generics.RetrieveAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    lookup_field = "id"
